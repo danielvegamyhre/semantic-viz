@@ -1,0 +1,42 @@
+Hyponyms of noun cat
+
+Sense 1
+cat, true cat
+       => domestic cat, house cat, Felis domesticus, Felis catus
+           => kitty, kitty-cat, puss, pussy, pussycat
+           => mouser
+           => alley cat
+           => tom, tomcat
+               => gib
+           => tabby, queen
+           => tabby, tabby cat
+           => tiger cat
+           => tortoiseshell, tortoiseshell-cat, calico cat
+           => Persian cat
+           => Angora, Angora cat
+           => Siamese cat, Siamese
+               => blue point Siamese
+           => Burmese cat
+           => Egyptian cat
+           => Maltese, Maltese cat
+           => Abyssinian, Abyssinian cat
+           => Manx, Manx cat
+       => wildcat
+           => sand cat
+           => European wildcat, catamountain, Felis silvestris
+           => cougar, puma, catamount, mountain lion, painter, panther, Felis concolor
+           => ocelot, panther cat, Felis pardalis
+           => jaguarundi, jaguarundi cat, jaguarondi, eyra, Felis yagouaroundi
+           => kaffir cat, caffer cat, Felis ocreata
+           => jungle cat, Felis chaus
+           => serval, Felis serval
+           => leopard cat, Felis bengalensis
+           => tiger cat, Felis tigrina
+           => margay, margay cat, Felis wiedi
+           => manul, Pallas's cat, Felis manul
+           => lynx, catamount
+               => common lynx, Lynx lynx
+               => Canada lynx, Lynx canadensis
+               => bobcat, bay lynx, Lynx rufus
+               => spotted lynx, Lynx pardina
+               => caracal, desert lynx, Lynx caracal
