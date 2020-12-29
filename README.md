@@ -1,7 +1,12 @@
 # Semantic Distance Visualizer written in Haskell
 
-This project visualizes the semantic distance between 2 words in a given hyponym by querying the Wordnet database, a large lexical database of English. Nouns, verbs, adjectives and adverbs are grouped into sets of cognitive synonyms (synsets), each expressing a distinct concept.
-Next, the program parses the Wordnet output into an adjacency list represented an undirected graph of the semantic relationships between the words in the given hyponym. Finally, the shortest path between the source word and target word is calculated and visualized for the user (see example screenshot below).
+This project visualizes the semantic distance between 2 words in a given hyponym by querying the Wordnet lexical database. Wordnet is a large lexical database of English. Nouns, verbs, adjectives and adverbs are grouped into sets of cognitive synonyms (synsets), each expressing a distinct concept.
+
+Next, the program parses the Wordnet output into an adjacency list represented an undirected graph of the semantic relationships between the words in the given hyponym. 
+
+Finally, the shortest path between the source word and target word is computed and visualized for the user (
+see example screenshot below).
+
 
 ## Demo
 <img src="static/demo.png" alt="ls /proc" width="900">
