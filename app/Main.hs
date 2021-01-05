@@ -11,13 +11,11 @@ import qualified Data.Map as M
 -- NOTE: I say recursive-ish because the helper functions it calls all call this function again after
 --       completing their respective operations (i.e. tail recursion)
 buildAdjacencyList :: [(String, Int)] -> [String] -> Int -> Map String [String] -> Map String [String]
-buildAdjacencyList [] parents currNumSpaces hashmap = hashmap
-buildAdjacencyList pairs parents currNumSpaces hashmap = do
-    let (word, spaces) = getFirstTuple pairs
-    if spaces > currNumSpaces then addNeighborNewParent (tail pairs) parents currNumSpaces word spaces hashmap
-    else if spaces < currNumSpaces then addNeighborOldParent (tail pairs) parents currNumSpaces word spaces hashmap
-    else addNeighborSameParent (tail pairs) parents currNumSpaces word spaces hashmap
-
+buildAdjacencyList [] _ _ hashmap = hashmap
+buildAdjacencyList ((word, spaces) : tail_pairs) parents currNumSpaces hashmap
+    | spaces > currNumSpaces = addNeighborNewParent tail_pairs parents currNumSpaces word spaces hashmap
+    | spaces < currNumSpaces = addNeighborOldParent tail_pairs parents currNumSpaces word spaces hashmap
+    | otherwise              = addNeighborSameParent tail_pairs parents currNumSpaces word spaces hashmap
 
 -- Add neighbor to current node without updating current parent node pointer
 addNeighborSameParent :: [(String, Int)] -> [String] -> Int -> String -> Int -> Map String [String] -> Map String [String]
