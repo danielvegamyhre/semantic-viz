@@ -4,12 +4,11 @@ This project visualizes the semantic distance between 2 words in a given hyponym
 
 Next, the program parses the Wordnet output into an *adjacency list* representing an *undirected graph* of the semantic relationships between the words in the given hyponym. 
 
-Finally, the *shortest path* between the source word and target word is computed and visualized for the user (
-see example screenshot below).
+Finally, the *shortest path* between the source word and target word is computed and visualized for the user (see example screenshot below).
 
 
 ## Demo
-<img src="static/demo.png" alt="ls /proc" width="900">
+<img src="static/demo.png" width="600">
 
 ## Algorithm
 
