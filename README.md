@@ -38,7 +38,7 @@ A tail-recursive algorithm dynamically constructs the adajacency list representi
 
 
 
-## Dependenices
+## Dependencies
 - Tested on Ubuntu 20.0.4
 - Wordnet: https://wordnet.princeton.edu/download/current-version
 - Haskell: `$ sudo apt-get install haskell-platform`
