@@ -12,7 +12,8 @@ see example screenshot below).
 <img src="static/demo.png" alt="ls /proc" width="900">
 
 ## Algorithm
-The algorithm can be summarized in the following steps:
+
+A tail-recursive algorithm dynamically constructs the adajacency list representing an undirected graph of the semantic relationships between words in the given hyponym. The algorithm can be summarized in the following steps:
   
  - Base case: If list of remaining words to be added to the adjacency list is empty, return the adjacency list.
 
