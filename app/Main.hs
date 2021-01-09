@@ -25,10 +25,10 @@ main = do
     word2 <- getLine
 
     -- query wordnet for hyponym of given word
-    let cmd = "app/wc-bash.sh"
-        args = [category]
-        input = ""
-    (rc, out, err) <- readProcessWithExitCode cmd args input
+--    let cmd = "app/wc-bash.sh"
+--        args = [category]
+--        input = ""
+--    (rc, out, err) <- readProcessWithExitCode cmd args input
 
 
     let inputLines = getLines "app/wn_output2.txt"
@@ -54,7 +54,7 @@ main = do
         queue = [word1]
         path = breadthFirstSearch adjacencyList word2 visited queue []
         pathString = show (fromMaybe [] path)
-    print pathString
+    print path
 
 --    writeFile "app/adjacency_list.txt" adjacencyListString
 --
