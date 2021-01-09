@@ -2,9 +2,11 @@
 import System.IO
 import System.Process
 import qualified Data.Map as M
+import Data.Maybe (fromMaybe)
+import qualified Data.Set as Set
 
 -- Project modules
-import Path (findShortestPath)
+import BFS (breadthFirstSearch)
 import AdjacencyList (buildAdjacencyList)
 import Utils (getLines, getPairs, getFirstList, visualize)
 
@@ -23,10 +25,10 @@ main = do
     word2 <- getLine
 
     -- query wordnet for hyponym of given word
-    let cmd = "app/wc-bash.sh"
-        args = [category]
-        input = ""
-    (rc, out, err) <- readProcessWithExitCode cmd args input
+--    let cmd = "app/wc-bash.sh"
+--        args = [category]
+--        input = ""
+--    (rc, out, err) <- readProcessWithExitCode cmd args input
 
 
     let inputLines = getLines "app/wn_output2.txt"
@@ -48,8 +50,12 @@ main = do
         adjacencyList = buildAdjacencyList pairs parents 0 hashmapWithRoot
         adjacencyListString = show adjacencyList
 
+        visited = Set.empty
+        queue = [word1]
+        path = breadthFirstSearch adjacencyList word2 visited queue
+    print path
 
-    writeFile "app/adjacency_list.txt" adjacencyListString
-
-    -- display undirected graph and visualize shortest distance between input words
-    visualize "app/adjacency_list.txt" word1 word2
+--    writeFile "app/adjacency_list.txt" adjacencyListString
+--
+--    -- display undirected graph and visualize shortest distance between input words
+--    visualize "app/adjacency_list.txt" word1 word2
