@@ -1,6 +1,12 @@
 module Utils where
     import System.Process
 
+    -- Merge 2 lists
+    merge :: [a] -> [a] -> [a]
+    merge xs     []     = xs
+    merge []     ys     = ys
+    merge (x:xs) (y:ys) = x : y : merge xs ys
+
     -- Counts spaces
     isSpace s = s == ' '
     countNumSpaces str = length (filter isSpace str)
