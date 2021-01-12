@@ -56,7 +56,7 @@ main = do
         pathString = show (fromMaybe [] path)
     print path
 
---    writeFile "app/adjacency_list.txt" adjacencyListString
---
---    -- display undirected graph and visualize shortest distance between input words
---    visualize "app/adjacency_list.txt" word1 word2
+    writeFile "app/adjacency_list.txt" adjacencyListString
+
+    -- display undirected graph and visualize shortest distance between input words
+    visualize "app/adjacency_list.txt" word1 word2
