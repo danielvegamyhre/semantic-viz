@@ -3,8 +3,11 @@ import Data.Maybe
 import Data.Map (Map)
 import Data.List.Unique
 import qualified Data.Map as M
+import Debug.Trace
 
 import Utils (push, pop)
+
+debug = flip traceShow
 
 -- Recursive(-ish) function for building the adjacency list. Uses number of leading spaces of each line of
 -- output from Wordnet to determine node placement in graph.
@@ -21,7 +24,7 @@ buildAdjacencyList ((word, spaces) : tail_pairs) parents currNumSpaces hashmap
 addNeighborSameParent :: [(String, Int)] -> [String] -> Int -> String -> Int -> Map String [String] -> Map String [String]
 addNeighborSameParent pairs parents currNumSpaces word spaces hashmap = do
     let (_, oldParents) = pop parents -- pop last item on parent hiearchy (if spaces didn't change, it has no children)
-        currParent = head oldParents
+        currParent = head oldParents `debug` oldParents
 
         -- add parent -> node relationship
         vals = M.lookup currParent hashmap
@@ -43,7 +46,7 @@ addNeighborNewParent :: [(String, Int)] -> [String] -> Int -> String -> Int -> M
 addNeighborNewParent pairs parents currNumSpaces word spaces hashmap = do
     let currParent = head parents
         (_, newParents) = push word parents
-        currNumSpaces = spaces
+        currNumSpaces = spaces `debug` parents
 
         -- add node -> parent relationship
         vals = M.lookup word hashmap
@@ -60,9 +63,10 @@ addNeighborNewParent pairs parents currNumSpaces word spaces hashmap = do
 -- Update current node to old parent and add neighbor
 addNeighborOldParent :: [(String, Int)] -> [String] -> Int -> String -> Int -> Map String [String] -> Map String [String]
 addNeighborOldParent pairs parents currNumSpaces word spaces hashmap = do
-    let (_, newParents) = pop parents -- pop last parent from stack and use new top element as parent
-        currParent = head newParents
-        currNumSpaces = spaces
+    let (prevParent, tmpParents) = pop parents -- pop last parent from stack and use new top element as parent
+        (_, newParents) = pop tmpParents
+        currParent = head newParents `debug` newParents
+        nextNumSpaces = spaces
 
         -- add parent -> node relationship
         vals = M.lookup currParent hashmap
@@ -73,5 +77,10 @@ addNeighborOldParent pairs parents currNumSpaces word spaces hashmap = do
         vals2 = M.lookup word hashmap
         newVals2 = uniq (currParent: (fromMaybe [] vals2))
         updatedHashmap2 = M.insert word newVals2 updatedHashmap
-    buildAdjacencyList pairs newParents currNumSpaces updatedHashmap2
+
+        nextParents = case currNumSpaces of
+            currNumSpaces
+                | currNumSpaces == spaces   -> ("": newParents) -- prepend dummy str for addNeighborSameParent function to pop
+                | otherwise                 -> (word: newParents)
+    buildAdjacencyList pairs nextParents nextNumSpaces updatedHashmap2
 
