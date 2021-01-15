@@ -24,6 +24,7 @@ dependencies:
 - process
 - containers
 - Unique
+- graphviz
 
 library:
   source-dirs: src

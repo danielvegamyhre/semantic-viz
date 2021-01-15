@@ -1,13 +1,18 @@
 -- Haskell libs
 import System.IO
 import System.Process
-import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
+import qualified Data.Map as M
 import qualified Data.Set as Set
+import Data.Graph
+import Data.GraphViz
+import Data.GraphViz.Printing
+import Data.Graph.Inductive.Graph
+import Data.Text.Lazy (unpack)
 
 -- Project modules
 import BFS (breadthFirstSearch)
-import Graph (buildAdjacencyList)
+import Graph (buildAdjacencyList, makeInductiveGraph)
 import Utils (getLines, getPairs, getFirstList, visualize)
 
 -- Main function with the following steps
@@ -50,13 +55,27 @@ main = do
         adjacencyList = buildAdjacencyList pairs parents 0 hashmapWithRoot
         adjacencyListString = show adjacencyList
 
+        -- perform BFS to find shortest path between source and target
         visited = Set.empty
         queue = [(word1, [])]
         path = breadthFirstSearch adjacencyList word2 visited queue
         pathString = show (fromMaybe [] path)
 
---    print path
-    writeFile "app/adjacency_list.txt" adjacencyListString
+        -- convert to inductive graph
+        edgeList = map (\(k,ks) -> (k,k,ks)) $ M.toList adjacencyList
+        (graph, _, _) = graphFromEdges edgeList
+        inductiveGraph = makeInductiveGraph graph
+
+        -- convert to dot format
+        graphInDotFormat = graphToDot nonClusteredParams inductiveGraph
+        dotData = unpack (renderDot $ toDot graphInDotFormat)
+
+    let dot_cmd = "dot"
+        dot_args = ["-Tsvg","-oSemanticGraph.svg"]
+    (rc, out, err) <- readProcessWithExitCode dot_cmd dot_args dotData
+
+    putStrLn $ "Saved semantic graph to SemanticGraph.svg"
+--    writeFile "app/adjacency_list.txt" adjacencyListString
 
     -- display undirected graph and visualize shortest distance between input words
-    visualize "app/adjacency_list.txt" word1 word2
+--    visualize "app/adjacency_list.txt" word1 word2

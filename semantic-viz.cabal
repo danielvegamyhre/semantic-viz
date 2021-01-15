@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a7e30e3ba5db7bcf870f46350f79d7033db03dc43be53d8280f8f0108abbf168
+-- hash: ef15d2e731d2db4af2e5d4421020eab1746a78cba51d19acf2b6536700f2e374
 
 name:           semantic-viz
 version:        0.1.0.0
@@ -27,7 +27,10 @@ source-repository head
 
 library
   exposed-modules:
+      BFS
+      Graph
       Lib
+      Utils
   other-modules:
       Paths_semantic_viz
   hs-source-dirs:
@@ -37,6 +40,9 @@ library
     , base >=4.7 && <5
     , containers
     , process
+    , graphviz
+    , text
+    , fgl
   default-language: Haskell2010
 
 executable semantic-viz-exe
@@ -51,6 +57,9 @@ executable semantic-viz-exe
     , base >=4.7 && <5
     , containers
     , process
+    , graphviz
+    , text
+    , fgl
     , semantic-viz
   default-language: Haskell2010
 
@@ -67,5 +76,8 @@ test-suite semantic-viz-test
     , base >=4.7 && <5
     , containers
     , process
+    , graphviz
+    , text
+    , fgl
     , semantic-viz
   default-language: Haskell2010

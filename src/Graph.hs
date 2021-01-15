@@ -4,6 +4,8 @@ import Data.Map (Map)
 import Data.List.Unique
 import qualified Data.Map as M
 import Data.Graph
+import Data.Graph.Inductive
+
 import Debug.Trace
 
 import Utils (push, pop)
@@ -84,3 +86,8 @@ addNeighborOldParent pairs parents currNumSpaces word spaces hashmap = do
                 | currNumSpaces == spaces   -> ("": newParents) -- prepend dummy str for addNeighborSameParent function to pop
                 | otherwise                 -> (word: newParents)
     buildAdjacencyList pairs nextParents nextNumSpaces updatedHashmap2
+
+
+makeInductiveGraph :: Data.Graph.Graph -> Gr
+makeInductiveGraph graph = do
+    Data.Graph.Inductive.mkGraph (zip (Data.Graph.vertices graph)) (Data.Graph.edges graph)
