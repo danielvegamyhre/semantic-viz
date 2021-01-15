@@ -51,8 +51,8 @@ main = do
         adjacencyListString = show adjacencyList
 
         visited = Set.empty
-        queue = [word1]
-        path = breadthFirstSearch adjacencyList word2 visited queue []
+        queue = [(word1, [])]
+        path = breadthFirstSearch adjacencyList word2 visited queue
         pathString = show (fromMaybe [] path)
     print path
 
