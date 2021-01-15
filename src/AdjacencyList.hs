@@ -7,7 +7,7 @@ import Debug.Trace
 
 import Utils (push, pop)
 
-debug = flip traceShow
+-- debug = flip traceShow
 
 -- Recursive(-ish) function for building the adjacency list. Uses number of leading spaces of each line of
 -- output from Wordnet to determine node placement in graph.
