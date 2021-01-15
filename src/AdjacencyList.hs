@@ -24,7 +24,7 @@ buildAdjacencyList ((word, spaces) : tail_pairs) parents currNumSpaces hashmap
 addNeighborSameParent :: [(String, Int)] -> [String] -> Int -> String -> Int -> Map String [String] -> Map String [String]
 addNeighborSameParent pairs parents currNumSpaces word spaces hashmap = do
     let (_, oldParents) = pop parents -- pop last item on parent hiearchy (if spaces didn't change, it has no children)
-        currParent = head oldParents `debug` oldParents
+        currParent = head oldParents -- `debug` oldParents
 
         -- add parent -> node relationship
         vals = M.lookup currParent hashmap
@@ -46,7 +46,7 @@ addNeighborNewParent :: [(String, Int)] -> [String] -> Int -> String -> Int -> M
 addNeighborNewParent pairs parents currNumSpaces word spaces hashmap = do
     let currParent = head parents
         (_, newParents) = push word parents
-        currNumSpaces = spaces `debug` parents
+        currNumSpaces = spaces -- `debug` parents
 
         -- add node -> parent relationship
         vals = M.lookup word hashmap
@@ -65,7 +65,7 @@ addNeighborOldParent :: [(String, Int)] -> [String] -> Int -> String -> Int -> M
 addNeighborOldParent pairs parents currNumSpaces word spaces hashmap = do
     let (prevParent, tmpParents) = pop parents -- pop last parent from stack and use new top element as parent
         (_, newParents) = pop tmpParents
-        currParent = head newParents `debug` newParents
+        currParent = head newParents -- `debug` newParents
         nextNumSpaces = spaces
 
         -- add parent -> node relationship
