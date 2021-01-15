@@ -7,7 +7,7 @@ import qualified Data.Set as Set
 
 -- Project modules
 import BFS (breadthFirstSearch)
-import AdjacencyList (buildAdjacencyList)
+import Graph (buildAdjacencyList)
 import Utils (getLines, getPairs, getFirstList, visualize)
 
 -- Main function with the following steps
@@ -25,10 +25,10 @@ main = do
     word2 <- getLine
 
     -- query wordnet for hyponym of given word
-    let cmd = "app/wc-bash.sh"
-        args = [category]
-        input = ""
-    (rc, out, err) <- readProcessWithExitCode cmd args input
+--    let cmd = "app/wc-bash.sh"
+--        args = [category]
+--        input = ""
+--    (rc, out, err) <- readProcessWithExitCode cmd args input
 
 
     let inputLines = getLines "app/wn_output2.txt"
@@ -54,8 +54,8 @@ main = do
         queue = [(word1, [])]
         path = breadthFirstSearch adjacencyList word2 visited queue
         pathString = show (fromMaybe [] path)
-    print path
 
+--    print path
     writeFile "app/adjacency_list.txt" adjacencyListString
 
     -- display undirected graph and visualize shortest distance between input words
