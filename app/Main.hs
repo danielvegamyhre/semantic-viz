@@ -1,6 +1,8 @@
 -- Haskell libs
 import System.IO
-import System.Process
+import System.Process (readProcessWithExitCode)
+import System.Directory (createDirectoryIfMissing)
+import System.FilePath.Posix (takeDirectory)
 import Data.Maybe (fromMaybe, fromJust)
 import qualified Data.Map as M
 import qualified Data.Set as Set
@@ -30,13 +32,12 @@ main = do
     word2 <- getLine
 
     -- query wordnet for hyponym of given word
---    let cmd = "app/wc-bash.sh"
---        args = [category]
---        input = ""
---    (rc, out, err) <- readProcessWithExitCode cmd args input
+    let cmd = "app/wc-bash.sh"
+        args = [category]
+        input = ""
+    (rc, out, err) <- readProcessWithExitCode cmd args input
 
-
-    let inputLines = getLines "app/wn_output2.txt"
+    let inputLines = getLines "./app/wn_output.txt"
     nonIOLines <- inputLines
 
     -- parse wordnet output into list of tuples [(word, numberOfLeadingSpaces)..]
@@ -81,28 +82,32 @@ main = do
 
         -- convert to dot format
         unlabelledGraphInDotFormat = graphToDot nonClusteredParams unlabelledGraph
-        labelledgraphInDotFormat = graphToDot nonClusteredParams labelledGraph
+        labelledGraphInDotFormat = graphToDot nonClusteredParams labelledGraph
 
         unlabelledDotData = unpack (renderDot $ toDot unlabelledGraphInDotFormat)
-        labelledDotData = unpack (renderDot $ toDot labelledgraphInDotFormat)
+        labelledDotData = unpack (renderDot $ toDot labelledGraphInDotFormat)
+
+    -- create output directory
+    createDirectoryIfMissing True "output_graphs"
 
     -- save unlabelled graph
     let dot_cmd = "dot"
-        dot_args = ["-Tsvg","-oUnlabelledSemanticGraph.svg"]
+        dot_args = ["-Tpng","-ooutput_graphs/UnlabelledSemanticGraph.png"]
     (rc, out, err) <- readProcessWithExitCode dot_cmd dot_args unlabelledDotData
 
     -- save labelled graph
     let dot_cmd = "dot"
-        dot_args = ["-Tsvg","-oLabelledSemanticGraph.svg"]
+        dot_args = ["-Tpng","-ooutput_graphs/LabelledSemanticGraph.png"]
     (rc, out, err) <- readProcessWithExitCode dot_cmd dot_args labelledDotData
 
---    print lnodeList
---    print edgeList
---    print ledgeList
-    putStrLn $ "Saved semantic graph to UnlabelledSemanticGraph.svg"
-    putStrLn $ "Saved semantic graph to LabelledSemanticGraph.svg"
+    putStrLn $ "Shortest Path: " ++ pathString
+    putStrLn $ "Semantic Distance: " ++ (show (length (fromMaybe [] path)))
 
---    writeFile "app/adjacency_list.txt" adjacencyListString
+    putStrLn $ "Visualizing with Graphviz..."
+    putStrLn $ "Saved semantic graph to ./output_graphs/UnlabelledSemanticGraph.png"
+    putStrLn $ "Saved semantic graph to ./output_graphs/LabelledSemanticGraph.png"
 
-    -- display undirected graph and visualize shortest distance between input words
---    visualize "app/adjacency_list.txt" word1 word2
+    -- Python visualization with Matplotlib
+    putStrLn $ "Visualizing with Matplotlib..."
+    writeFile "app/adjacency_list.txt" adjacencyListString
+    visualize "app/adjacency_list.txt" word1 word2
