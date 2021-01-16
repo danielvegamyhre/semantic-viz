@@ -1,7 +1,7 @@
 -- Haskell libs
 import System.IO
 import System.Process
-import Data.Maybe (fromMaybe)
+import Data.Maybe (fromMaybe, fromJust)
 import qualified Data.Map as M
 import qualified Data.Set as Set
 import Data.Graph
@@ -63,8 +63,13 @@ main = do
 
         -- convert to inductive graph
         edgeList = map (\(k,ks) -> (k,k,ks)) $ M.toList adjacencyList
-        (graph, _, _) = graphFromEdges edgeList
-        inductiveGraph = makeInductiveGraph graph
+        (graph, nodeFromVertex, vertexFromKey) = graphFromEdges edgeList
+
+        nodeList = map nodeFromVertex (vertices graph)
+        vertexList = map vertexFromKey (map (\(k,ks) -> k) $ M.toList adjacencyList)
+        lnodeList = zip (map (\v -> (fromMaybe 0 v)) vertexList) nodeList
+        ledgeList = map (\(j,k,ks) -> ((fromMaybe 0 (vertexFromKey j)), (fromMaybe 0 (vertexFromKey k)), ks)) $ edgeList
+        inductiveGraph = makeInductiveGraph lnodeList ledgeList
 
         -- convert to dot format
         graphInDotFormat = graphToDot nonClusteredParams inductiveGraph
@@ -73,7 +78,9 @@ main = do
     let dot_cmd = "dot"
         dot_args = ["-Tsvg","-oSemanticGraph.svg"]
     (rc, out, err) <- readProcessWithExitCode dot_cmd dot_args dotData
-
+--    print lnodeList
+--    print edgeList
+--    print ledgeList
     putStrLn $ "Saved semantic graph to SemanticGraph.svg"
 --    writeFile "app/adjacency_list.txt" adjacencyListString
 

@@ -88,6 +88,6 @@ addNeighborOldParent pairs parents currNumSpaces word spaces hashmap = do
     buildAdjacencyList pairs nextParents nextNumSpaces updatedHashmap2
 
 
-makeInductiveGraph :: Data.Graph.Graph -> Gr
-makeInductiveGraph graph = do
-    Data.Graph.Inductive.mkGraph (zip (Data.Graph.vertices graph)) (Data.Graph.edges graph)
+makeInductiveGraph :: [LNode a] -> [LEdge b] -> Gr a b
+makeInductiveGraph v e = do
+    Data.Graph.Inductive.mkGraph v e
