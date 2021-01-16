@@ -12,7 +12,7 @@ import Data.Text.Lazy (unpack)
 
 -- Project modules
 import BFS (breadthFirstSearch)
-import Graph (buildAdjacencyList, makeInductiveGraph)
+import Graph (buildAdjacencyList, makeUnlabelledGraph, makeLabelledGraph)
 import Utils (getLines, getPairs, getFirstList, visualize)
 
 -- Main function with the following steps
@@ -65,23 +65,43 @@ main = do
         edgeList = map (\(k,ks) -> (k,k,ks)) $ M.toList adjacencyList
         (graph, nodeFromVertex, vertexFromKey) = graphFromEdges edgeList
 
+        -- get nodes (String, String, [String]) from vertices (Int)
         nodeList = map nodeFromVertex (vertices graph)
+
+        -- get the vertex (Int) mapped to each node
         vertexList = map vertexFromKey (map (\(k,ks) -> k) $ M.toList adjacencyList)
+
+        -- tuple vertex with node to create LNodes
         lnodeList = zip (map (\v -> (fromMaybe 0 v)) vertexList) nodeList
         ledgeList = map (\(j,k,ks) -> ((fromMaybe 0 (vertexFromKey j)), (fromMaybe 0 (vertexFromKey k)), ks)) $ edgeList
-        inductiveGraph = makeInductiveGraph lnodeList ledgeList
+
+        -- make labelled and unlabelled graphs
+        unlabelledGraph = makeUnlabelledGraph (Data.Graph.vertices graph) (Data.Graph.edges graph)
+        labelledGraph = makeLabelledGraph lnodeList ledgeList
 
         -- convert to dot format
-        graphInDotFormat = graphToDot nonClusteredParams inductiveGraph
-        dotData = unpack (renderDot $ toDot graphInDotFormat)
+        unlabelledGraphInDotFormat = graphToDot nonClusteredParams unlabelledGraph
+        labelledgraphInDotFormat = graphToDot nonClusteredParams labelledGraph
 
+        unlabelledDotData = unpack (renderDot $ toDot unlabelledGraphInDotFormat)
+        labelledDotData = unpack (renderDot $ toDot labelledgraphInDotFormat)
+
+    -- save unlabelled graph
     let dot_cmd = "dot"
-        dot_args = ["-Tsvg","-oSemanticGraph.svg"]
-    (rc, out, err) <- readProcessWithExitCode dot_cmd dot_args dotData
+        dot_args = ["-Tsvg","-oUnlabelledSemanticGraph.svg"]
+    (rc, out, err) <- readProcessWithExitCode dot_cmd dot_args unlabelledDotData
+
+    -- save labelled graph
+    let dot_cmd = "dot"
+        dot_args = ["-Tsvg","-oLabelledSemanticGraph.svg"]
+    (rc, out, err) <- readProcessWithExitCode dot_cmd dot_args labelledDotData
+
 --    print lnodeList
 --    print edgeList
 --    print ledgeList
-    putStrLn $ "Saved semantic graph to SemanticGraph.svg"
+    putStrLn $ "Saved semantic graph to UnlabelledSemanticGraph.svg"
+    putStrLn $ "Saved semantic graph to LabelledSemanticGraph.svg"
+
 --    writeFile "app/adjacency_list.txt" adjacencyListString
 
     -- display undirected graph and visualize shortest distance between input words

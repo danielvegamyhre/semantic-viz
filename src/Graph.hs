@@ -5,9 +5,9 @@ import Data.List.Unique
 import qualified Data.Map as M
 import Data.Graph
 import Data.Graph.Inductive
-
 import Debug.Trace
 
+-- Project modules
 import Utils (push, pop)
 
 -- debug = flip traceShow
@@ -88,6 +88,12 @@ addNeighborOldParent pairs parents currNumSpaces word spaces hashmap = do
     buildAdjacencyList pairs nextParents nextNumSpaces updatedHashmap2
 
 
-makeInductiveGraph :: [LNode a] -> [LEdge b] -> Gr a b
-makeInductiveGraph v e = do
+-- Make unlabelled inductive graph from list of vertices + edges
+makeUnlabelledGraph :: [Node] -> [Data.Graph.Edge] -> Gr () ()
+makeUnlabelledGraph v e = do
+    Data.Graph.Inductive.mkUGraph v e
+
+-- Make labelled inductive graph from list of labelled vertices + edges
+makeLabelledGraph :: [LNode a] -> [LEdge b] -> Gr a b
+makeLabelledGraph v e = do
     Data.Graph.Inductive.mkGraph v e
