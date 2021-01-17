@@ -1,6 +1,10 @@
 module Utils where
 import System.Process
 
+-- Extract middle element of 3 element tuple
+snd3 :: (a,b,c) -> b
+snd3 (_,y,_) = y
+
 -- Merge 2 lists
 merge :: [a] -> [a] -> [a]
 merge xs     []     = xs
