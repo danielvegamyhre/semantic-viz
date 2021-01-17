@@ -8,6 +8,10 @@ Finally, the *shortest path* between the source word and target word is computed
 
 
 ## Demo
+### Semantic graph of hyponyms of "cat"
+<img src="output_graphs/LabelledSemanticGraph.png" width=600>
+
+### Semantic distance between "kitty" and "wildcat"
 <img src="static/demo.png" width="600">
 
 ## Algorithm
