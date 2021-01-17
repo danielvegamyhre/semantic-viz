@@ -12,7 +12,7 @@ Finally, the *shortest path* between the source word and target word is computed
 In the example below, the semantic graph of hyponyms of "cat" is constructed, and the semantic distance (shortest path) between "kitty" and "wildcat" is computed.
 
 ### Visualization using Haskell + Graphviz
-<img src="output_graphs/LabelledSemanticGraph.png">
+<img src="output_graphs/LabelledSemanticGraph_example.png">
 
 ### Visualization using Python + Matplotlib
 <img src="static/demo.png">
