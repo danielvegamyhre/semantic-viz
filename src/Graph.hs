@@ -94,6 +94,6 @@ makeUnlabelledGraph v e = do
     Data.Graph.Inductive.mkUGraph v e
 
 -- Make labelled inductive graph from list of labelled vertices + edges
-makeLabelledGraph :: [LNode a] -> [LEdge b] -> Gr a b
+makeLabelledGraph :: [LNode a] -> [LEdge ()] -> Gr a ()
 makeLabelledGraph v e = do
     Data.Graph.Inductive.mkGraph v e

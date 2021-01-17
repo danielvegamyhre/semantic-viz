@@ -1,4 +1,5 @@
 -- Haskell libs
+import Data.Functor ((<&>))
 import System.IO
 import System.Process (readProcessWithExitCode)
 import System.Directory (createDirectoryIfMissing)
@@ -10,7 +11,8 @@ import Data.Graph
 import Data.GraphViz
 import Data.GraphViz.Printing
 import Data.Graph.Inductive.Graph
-import Data.Text.Lazy (unpack)
+import Data.GraphViz.Attributes.Complete (Label(StrLabel), Attribute(Label))
+import Data.Text.Lazy (pack, unpack)
 
 -- Project modules
 import BFS (breadthFirstSearch)
@@ -74,16 +76,19 @@ main = do
 
         -- tuple vertex with node to create LNodes
         lnodeList = zip (map (\v -> (fromMaybe 0 v)) vertexList) nodeList
-        ledgeList = map (\(j,k,ks) -> ((fromMaybe 0 (vertexFromKey j)), (fromMaybe 0 (vertexFromKey k)), ks)) $ edgeList
+        ledgeList = map (\(n,m) -> (n,m,())) (Data.Graph.edges graph)
 
         -- make labelled and unlabelled graphs
         unlabelledGraph = makeUnlabelledGraph (Data.Graph.vertices graph) (Data.Graph.edges graph)
         labelledGraph = makeLabelledGraph lnodeList ledgeList
 
+        -- set up graph params
+        labelledNodesParams = nonClusteredParams { fmtNode= \(n,label) -> [Label (StrLabel (pack label))] }
+
         -- convert to dot format
+--        putGraph = graphToDot labelledNodesParams <&> toDot <&> renderDot
         unlabelledGraphInDotFormat = graphToDot nonClusteredParams unlabelledGraph
         labelledGraphInDotFormat = graphToDot nonClusteredParams labelledGraph
-
         unlabelledDotData = unpack (renderDot $ toDot unlabelledGraphInDotFormat)
         labelledDotData = unpack (renderDot $ toDot labelledGraphInDotFormat)
 
@@ -100,6 +105,7 @@ main = do
         dot_args = ["-Tpng","-ooutput_graphs/LabelledSemanticGraph.png"]
     (rc, out, err) <- readProcessWithExitCode dot_cmd dot_args labelledDotData
 
+    print lnodeList
     putStrLn $ "Shortest Path: " ++ pathString
     putStrLn $ "Semantic Distance: " ++ (show (length (fromMaybe [] path)))
 
