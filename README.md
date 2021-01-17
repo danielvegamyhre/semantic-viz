@@ -7,7 +7,9 @@ Next, the program parses the Wordnet output into an *adjacency list* representin
 Finally, the *shortest path* between the source word and target word is computed and visualized for the user (see example screenshot below).
 
 
-## Demo: Semantic graph of hyponyms of "cat" with semantic distance between "kitty" and "wildcat"
+## Demo
+
+In the example below, the semantic graph of hyponyms of "cat" is constructed, and the semantic distance (shortest path) between "kitty" and "wildcat" is computed.
 
 ### Visualization using Haskell + Graphviz
 <img src="output_graphs/LabelledSemanticGraph.png">
