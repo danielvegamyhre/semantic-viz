@@ -62,7 +62,3 @@ Follow the prompts to run the program. It will prompt you for:
 1. The word to query Wordnet for (hyponym)
 2. The source word and target word you want to visualize the semantic distance between.
 
-
-## TO DO
-- Implement Dijkstra's shortest path algorithm in Haskell instead of pawning it off to Python
-- Using Haskell libraries for visualization rather than Matplotlib and NetworkX
