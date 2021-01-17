@@ -7,14 +7,15 @@ Next, the program parses the Wordnet output into an *adjacency list* representin
 Finally, the *shortest path* between the source word and target word is computed and visualized for the user (see example screenshot below).
 
 
-## Demo
-### Semantic graph of hyponyms of "cat"
+## Demo: Semantic graph of hyponyms of "cat" with semantic distance between "kitty" and "wildcat"
+
+### Visualization using Haskell + Graphviz
 <img src="output_graphs/LabelledSemanticGraph.png">
 
-### Semantic distance between "kitty" and "wildcat"
+### Visualization using Python + Matplotlib
 <img src="static/demo.png">
 
-## Algorithm
+## Algorithm: Constructing the Semantic Graph
 
 A tail-recursive algorithm dynamically constructs the adajacency list representing an undirected graph of the semantic relationships between words in the given hyponym. The algorithm can be summarized in the following steps:
   
@@ -39,6 +40,9 @@ A tail-recursive algorithm dynamically constructs the adajacency list representi
  ### Stack and Adjacency List step-by-step
   <img src="static/data_structures4.png"/>
 
+
+## Algorithm: Computing the Shortest Path
+To compute the shortest path, a standard breadth-first search algorithm is implemented in Haskell.
 
 
 ## Dependencies
