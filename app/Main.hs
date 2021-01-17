@@ -32,6 +32,8 @@ main = do
     putStrLn "Enter word 1 (target) for calculating semantic distance:"
     word2 <- getLine
 
+    let tag = category ++ "_" ++ word1 ++ "_" ++ word2
+
     -- query wordnet for hyponym of given word
     let cmd = "app/wc-bash.sh"
         args = [category]
@@ -95,12 +97,12 @@ main = do
 
     -- save unlabelled graph
     let dot_cmd = "dot"
-        dot_args = ["-Tpng","-ooutput_graphs/UnlabelledSemanticGraph.png"]
+        dot_args = ["-Tpng","-ooutput_graphs/UnlabelledSemanticGraph_" ++ tag ++ ".png"]
     (rc, out, err) <- readProcessWithExitCode dot_cmd dot_args unlabelledDotData
 
     -- save labelled graph
     let dot_cmd = "dot"
-        dot_args = ["-Tpng","-ooutput_graphs/LabelledSemanticGraph.png"]
+        dot_args = ["-Tpng","-ooutput_graphs/LabelledSemanticGraph_" ++ tag ++ ".png"]
     (rc, out, err) <- readProcessWithExitCode dot_cmd dot_args labelledDotData
 
     putStrLn $ "Shortest Path: " ++ pathString
